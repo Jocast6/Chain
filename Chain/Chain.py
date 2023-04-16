@@ -1,3 +1,5 @@
+from collections import namedtuple
+from dataclasses import dataclass
 from typing import Any, Callable, List, Tuple, Union
 import numpy as np
 
@@ -99,7 +101,7 @@ class Chain:
 
 
 def higher_order_function_with_two_outputs(x, f):
-    return x, list(map(f, x))
+    return x.Array, list(map(f, x.Array))
 
 def add(x, y):
     output = []
@@ -111,16 +113,24 @@ def add(x, y):
 import random
 random_numbers = np.array([random.randint(0, 100) for _ in range(10)])
 
+@dataclass
+class RandomSequence:
+    Name: str
+    Array: np.array
+
+randomSequences = [RandomSequence("A", random_numbers),
+                   RandomSequence("B", random_numbers)]
+
 # create an instance of the Chain class
 chain = Chain()\
-    .map(lambda x: x + 100)\
-    .map(lambda x: x - 100)\
-    .filter(lambda x: x % 2 == 0)\
+    .map(lambda d: RandomSequence(Name=d.Name, Array=(d.Array + 100)))\
+    .map(lambda d: RandomSequence(Name=d.Name, Array=(d.Array - 100)))\
+    .filter(lambda d: RandomSequence(Name=d.Name, Array=(d.Array % 2 == 0)))\
     .pipe(higher_order_function_with_two_outputs, lambda x: x*2)\
     .pipe(add)\
     .map(lambda x: x - 100)
 
 # run the function pipeline with an initial input
-result = chain(random_numbers)
+result = chain(randomSequences)
 print(result)
 

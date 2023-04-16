@@ -98,7 +98,7 @@ class Chain:
         return self
 
 
-def add_and_subtract(x, f):
+def higher_order_function_with_two_outputs(x, f):
     return x, list(map(f, x))
 
 def add(x, y):
@@ -116,7 +116,7 @@ chain = Chain()\
     .map(lambda x: x + 100)\
     .map(lambda x: x - 100)\
     .filter(lambda x: x % 2 == 0)\
-    .apply(add_and_subtract, lambda x: x*2)\
+    .apply(higher_order_function_with_two_outputs, lambda x: x*2)\
     .apply(add)\
     .map(lambda x: x - 100)
 

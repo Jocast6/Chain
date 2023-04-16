@@ -38,7 +38,7 @@ class Chain:
         """
         return self.run(initial_input)
     
-    def apply(self, function: Callable[..., Any], *args: Any, **kwargs: Any) -> 'Chain':
+    def pipe(self, function: Callable[..., Any], *args: Any, **kwargs: Any) -> 'Chain':
         """Adds a function to the function pipeline.
 
         Args:
@@ -90,11 +90,11 @@ class Chain:
         return output_value
 
     def map(self, f):
-        self.apply(_map(f))
+        self.pipe(_map(f))
         return self
 
     def filter(self, f):
-        self.apply(_filter(f))
+        self.pipe(_filter(f))
         return self
 
 
@@ -116,11 +116,11 @@ chain = Chain()\
     .map(lambda x: x + 100)\
     .map(lambda x: x - 100)\
     .filter(lambda x: x % 2 == 0)\
-    .apply(higher_order_function_with_two_outputs, lambda x: x*2)\
-    .apply(add)\
+    .pipe(higher_order_function_with_two_outputs, lambda x: x*2)\
+    .pipe(add)\
     .map(lambda x: x - 100)
 
-# run the function pipeline with an initial input value of 5
+# run the function pipeline with an initial input
 result = chain(random_numbers)
-print(result) # Output: 20
+print(result)
 

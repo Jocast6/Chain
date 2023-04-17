@@ -1,4 +1,5 @@
 import unittest
+from unittest import result
 from Chain import Chain
 import numpy as np
 from dataclasses import dataclass
@@ -57,6 +58,57 @@ class Test_Chain(unittest.TestCase):
 
         self.assertEqual([86, 42, 12, 20,  6, 87,  1, 80,  7, 43], list(result[0].arr))
         self.assertTrue(isinstance(result[i], random_numbers))
+
+    def test_zip_function(self):
+        list1 = [1, 2, 3]
+        list2 = [4, 5, 6]
+        
+        result = Chain()\
+            .zip()\
+            .map(lambda x: x[0] + x[1])
+
+        self.assertEqual([5, 7, 9], result((list1, list2)))
+
+    def test_zip_function_with_added_parameter(self):
+        list1 = [1, 2, 3]
+        list2 = [4, 5, 6]
+        
+        result = Chain()\
+            .zip(list2)\
+            .map(lambda x: x[0] + x[1])
+
+        self.assertEqual([5, 7, 9], result(list1))
+
+    def test_enumerate_function(self):
+        my_list = ['apple', 'banana', 'orange']
+
+        result = Chain()\
+            .enumerate()\
+            .map(lambda i: f"{i[0]}: {i[1]}")
+
+        self.assertEqual(['0: apple', '1: banana', '2: orange'], result(my_list))
+
+    def test_map_function(self):
+        my_list = [1, 2, 3, 4, 5]
+        result = Chain()\
+            .map(lambda x: x ** 2)\
+            .run(my_list)
+
+        self.assertEqual([1, 4, 9, 16, 25], result)
+
+    def test_filter_function(self):
+        my_list = [1, 2, 3, 4, 5]
+        result = Chain()\
+            .filter(lambda x: x % 2 == 0)\
+            .run(my_list)
+        self.assertEqual([2, 4], result)
+
+    def test_sort(self):
+        data = [4, 2, 3, 1, 5]
+        expected_output = [1, 2, 3, 4, 5]
+        result = Chain()\
+            .sort()
+        self.assertEqual(result(data), expected_output)
 
 
 if __name__ == '__main__':

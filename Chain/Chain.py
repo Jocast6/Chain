@@ -1,28 +1,16 @@
-from collections import namedtuple
-from dataclasses import dataclass
 from typing import Any, Callable, List, Tuple, Union
-import numpy as np
 
 
-def _filter(f: Callable):
-    def apply(seq: Any):
-        return list(filter(f, seq))
-
-    return apply
-
-def _map(f: Callable):
-    def apply(seq: Any):
-        return list(map(f, seq))
-
-    return apply
-
-
-class Chain:
+class ChainBase:
     """A class for chaining functions together in a pipeline.
 
     Methods:
         __call__: Executes the function pipeline with an initial input value.
         add_function: Adds a function to the function pipeline.
+        map: Adds a map function to the function pipeline.
+        filter: Adds a filter function to the function pipeline.
+        enumerate: Adds an enumerate function to the function pipeline.
+        zip: Adds a zip function to the function pipeline.
     """
 
     def __init__(self, initial_input: Any = None) -> None:
@@ -54,7 +42,7 @@ class Chain:
         self.functions.append((function, args, kwargs))
         return self
     
-    def apply_function(self, function: Callable[..., Any], input_value: Any, *args: Any, **kwargs: Any) -> Any:
+    def _apply_function(self, function: Callable[..., Any], input_value: Any, *args: Any, **kwargs: Any) -> Any:
         """Applies a function to an input value.
 
         Args:
@@ -87,15 +75,90 @@ class Chain:
         if output_value is None:
             return self
 
-        for function, args, kwargs in self.functions:
-            output_value = self.apply_function(function, output_value, *args, **kwargs)
+        for i, (function, args, kwargs) in enumerate(self.functions):
+            try:
+                output_value = self._apply_function(function, output_value, *args, **kwargs)
+            except Exception as e:
+                print(f"Error occurred at function {function.__name__} with inputs:")
+                print(f"Input {i}: {output_value}")
+                print(f"Additional args: {args}")
+                print(f"Additional kwargs: {kwargs}")
+                raise e
         return output_value
 
-    def map(self, f):
-        self.pipe(_map(f))
+
+class Chain_Functions(ChainBase):
+
+    @staticmethod
+    def _filter(f: Callable):
+        def apply(seq: Any):
+            return list(filter(f, seq))
+
+        return apply
+
+    @staticmethod
+    def _map(f: Callable):
+        def apply(seq: Any):
+            return list(map(f, seq))
+
+        return apply
+
+
+class Chain(Chain_Functions):
+    def map(self, f: Callable[..., Any]) -> 'Chain':
+        """Adds a map function to the pipeline.
+        Args:
+            f: The function to apply to each element of the sequence.
+        Returns:
+            The Chain object for method chaining.
+        """
+        self.pipe(self._map(f))
         return self
 
-    def filter(self, f):
-        self.pipe(_filter(f))
+
+    def filter(self, f: Callable[..., Any]) -> 'Chain':
+        """Adds a filter function to the pipeline.
+        Args:
+            f: The function used to filter the sequence.
+        Returns:
+            The Chain object for method chaining.
+        """
+        self.pipe(self._filter(f))
+        return self
+
+
+    def enumerate(self) -> 'Chain':
+        """Adds an enumerate function to the pipeline.
+        Args:
+            start: The start index of the enumeration.
+        Returns:
+            The Chain object for method chaining.
+        """
+        self.pipe(lambda *args: enumerate(*args))
+        return self
+
+
+    def zip(self, *iterables) -> 'Chain':
+        """Adds a zip function to the pipeline.
+        Args:
+            *iterables: The iterable(s) to zip with the original sequence.
+        Returns:
+            The Chain object for method chaining.
+        """
+        self.pipe(lambda *args: zip(*args, *iterables))
+        return self
+
+    def sort(self, reverse=False):
+        """
+        Sort the current data set and update the current state.
+
+        Args:
+            key: A function to specify the sorting key.
+            reverse: A boolean value to specify whether to sort in reverse order.
+
+        Returns:
+            The Chain object for method chaining.
+        """
+        self.pipe(lambda *args: sorted(*args, reverse=reverse))
         return self
 

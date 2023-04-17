@@ -1,4 +1,5 @@
-from typing import Any, Callable, List, Tuple, Union
+from typing import Any, Callable
+from .ChainFunctional import ChainFunctional
 
 
 class Chain(ChainFunctional):

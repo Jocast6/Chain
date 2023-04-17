@@ -1,4 +1,4 @@
-from typing import Any, Callable, List, Tuple, Union
+from typing import Any, Callable, List, Tuple
 
 
 class ChainBase:
@@ -40,6 +40,7 @@ class ChainBase:
             The Chain object for method chaining.
         """
         self.functions.append((function, args, kwargs))
+
         return self
     
     def _apply_function(self, function: Callable[..., Any], input_value: Any, *args: Any, **kwargs: Any) -> Any:
@@ -60,6 +61,7 @@ class ChainBase:
             output_value = function(input_value, *args, **kwargs)
             if isinstance(output_value, tuple):
                 output_value = tuple(output_value)
+
         return output_value
     
     def run(self, initial_input: Any = None) -> Any:
@@ -84,5 +86,6 @@ class ChainBase:
                 print(f"Additional args: {args}")
                 print(f"Additional kwargs: {kwargs}")
                 raise e
+
         return output_value
 

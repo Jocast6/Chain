@@ -1,6 +1,6 @@
-from typing import Any, Callable, List, Tuple, Union
+from typing import Any, Callable
 
-from ChainBase import ChainBase
+from .ChainBase import ChainBase
 
 
 class ChainFunctional(ChainBase):

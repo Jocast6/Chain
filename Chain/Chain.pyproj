@@ -26,6 +26,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Chain.py" />
+    <Compile Include="ChainBase.py" />
+    <Compile Include="ChainFunctional.py" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="CondaEnv|CondaEnv|pytorch_env" />

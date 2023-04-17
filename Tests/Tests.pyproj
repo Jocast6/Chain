@@ -2,19 +2,19 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>e849b753-edc1-4695-900d-330b57b1adbd</ProjectGuid>
+    <ProjectGuid>6dc68d75-b13f-4d5b-8aeb-46a95511e6c9</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Chain.py</StartupFile>
+    <StartupFile>test_chain.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>Chain</Name>
-    <RootNamespace>Chain</RootNamespace>
-    <InterpreterId>CondaEnv|CondaEnv|pytorch_env</InterpreterId>
+    <Name>Tests</Name>
+    <RootNamespace>Tests</RootNamespace>
     <TestFramework>unittest</TestFramework>
     <UnitTestPattern>test*.py</UnitTestPattern>
     <UnitTestRootDirectory>.</UnitTestRootDirectory>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,10 +25,16 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Chain.py" />
+    <Compile Include="test_chain.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <InterpreterReference Include="CondaEnv|CondaEnv|pytorch_env" />
+    <ProjectReference Include="..\Chain\Chain.pyproj">
+      <Name>Chain</Name>
+      <Project>{e849b753-edc1-4695-900d-330b57b1adbd}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

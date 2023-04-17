@@ -99,38 +99,3 @@ class Chain:
         self.pipe(_filter(f))
         return self
 
-
-def higher_order_function_with_two_outputs(x, f):
-    return x.Array, list(map(f, x.Array))
-
-def add(x, y):
-    output = []
-    for i in range(len(x)):
-        output.append(x[i] + y[i])
-
-    return output
-
-import random
-random_numbers = np.array([random.randint(0, 100) for _ in range(10)])
-
-@dataclass
-class RandomSequence:
-    Name: str
-    Array: np.array
-
-randomSequences = [RandomSequence("A", random_numbers),
-                   RandomSequence("B", random_numbers)]
-
-# create an instance of the Chain class
-chain = Chain()\
-    .map(lambda d: RandomSequence(Name=d.Name, Array=(d.Array + 100)))\
-    .map(lambda d: RandomSequence(Name=d.Name, Array=(d.Array - 100)))\
-    .filter(lambda d: RandomSequence(Name=d.Name, Array=(d.Array % 2 == 0)))\
-    .pipe(higher_order_function_with_two_outputs, lambda x: x*2)\
-    .pipe(add)\
-    .map(lambda x: x - 100)
-
-# run the function pipeline with an initial input
-result = chain(randomSequences)
-print(result)
-

@@ -4,7 +4,8 @@ The Git repository contains code for a Python class called Chain that implements
 ```python
         def higher_order_function_with_two_outputs(x, f):
             # this function takes a list: x, and a function: f, as inputs
-            return x, list(map(f, x))
+            other_output = list(map(f, x))
+            return x, other_output
 
         def add(x, y):
             # this function takes two list: x, y
@@ -21,8 +22,16 @@ The Git repository contains code for a Python class called Chain that implements
             .map(lambda x: x + 100)\
             .map(lambda x: x - 100)\
             .filter(lambda x: x % 2 == 0)\
-            .pipe(higher_order_function_with_two_outputs, lambda x: x*2)\ # additional parammeter to functions can be passed while setting up the pipeline
+            .pipe(higher_order_function_with_two_outputs, lambda x: x*2)\ # additional parammeter to functions can be passed
             .pipe(add)\
+            
+        # don't like backlashes?
+        chain = (Chain()
+            .map(lambda x: x + 100)
+            .map(lambda x: x - 100)
+            .filter(lambda x: x % 2 == 0)
+            .pipe(higher_order_function_with_two_outputs, lambda x: x*2) # additional parammeter to functions can be passed
+            .pipe(add))
 
         # run the function pipeline with an initial input
         result = chain(random_numbers)

@@ -3,9 +3,11 @@ The Git repository contains code for a Python class called Chain that implements
 
 ```python
         def higher_order_function_with_two_outputs(x, f):
+            # this function takes a list: x, and a function: f, as inputs
             return x, list(map(f, x))
 
         def add(x, y):
+            # this function takes two list: x, y
             output = []
             for i in range(len(x)):
                 output.append(x[i] + y[i])
@@ -14,12 +16,12 @@ The Git repository contains code for a Python class called Chain that implements
 
         random_numbers = [86, 42, 12, 20, 6, 87, 1, 80, 7, 43]
 
-        # create an instance of the Chain class
+        # create an instance of the Chain class and add functions to pipeline
         chain = Chain()\
             .map(lambda x: x + 100)\
             .map(lambda x: x - 100)\
             .filter(lambda x: x % 2 == 0)\
-            .pipe(higher_order_function_with_two_outputs, lambda x: x*2)\
+            .pipe(higher_order_function_with_two_outputs, lambda x: x*2)\ # additional parammeter to functions can be passed while setting up the pipeline
             .pipe(add)\
 
         # run the function pipeline with an initial input

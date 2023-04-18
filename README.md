@@ -25,7 +25,7 @@ The Git repository contains code for a Python class called Chain that implements
             .pipe(higher_order_function_with_two_outputs, lambda x: x*2)\ # additional parammeter to functions can be passed
             .pipe(add)\
             
-        # don't like backlashes?
+        # don't like backslashes?
         chain = (Chain()
             .map(lambda x: x + 100)
             .map(lambda x: x - 100)

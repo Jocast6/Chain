@@ -18,7 +18,7 @@ The Git repository contains code for a Python class called Chain that implements
     random_numbers = [86, 42, 12, 20, 6, 87, 1, 80, 7, 43]
 
     # create an instance of the Chain class and add functions to pipeline
-    chain = Chain()\
+    pipeline = Chain()\
         .map(lambda x: x + 100)\
         .map(lambda x: x - 100)\
         .filter(lambda x: x % 2 == 0)\
@@ -26,7 +26,7 @@ The Git repository contains code for a Python class called Chain that implements
         .pipe(add)\
             
     # don't like backslashes?
-    chain = (Chain()
+    pipeline = (Chain()
         .map(lambda x: x + 100)
         .map(lambda x: x - 100)
         .filter(lambda x: x % 2 == 0)
@@ -34,7 +34,7 @@ The Git repository contains code for a Python class called Chain that implements
         .pipe(add))
 
     # run the function pipeline with an initial input
-    result = chain(random_numbers)
+    result = pipeline(random_numbers)
 
     self.assertEqual([258, 126, 36, 60, 18, 240], result)
 ```

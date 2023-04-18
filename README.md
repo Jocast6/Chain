@@ -22,7 +22,7 @@ The Git repository contains code for a Python class called Chain that implements
             .map(lambda x: x + 100)\
             .map(lambda x: x - 100)\
             .filter(lambda x: x % 2 == 0)\
-            .pipe(higher_order_function_with_two_outputs, lambda x: x*2)\ # additional parammeter to functions can be passed
+            .pipe(higher_order_function_with_two_outputs, lambda x: x*2)\ # additional parammeters to functions can be passed with the Chain.pipe
             .pipe(add)\
             
         # don't like backslashes?

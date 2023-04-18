@@ -4,8 +4,8 @@ The Git repository contains code for a Python class called Chain that implements
 ```python
     def higher_order_function_with_two_outputs(x, f):
         # this function takes a list: x, and a function: f, as inputs
-        other_output = list(map(f, x))
-        return x, other_output
+        y = list(map(f, x))
+        return x, y
 
     def add(x, y):
         # this function takes two list: x, y

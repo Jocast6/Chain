@@ -43,7 +43,17 @@ class Chain(ChainFunctional):
         Returns:
             The Chain object for method chaining.
         """
-        self.pipe(lambda *args: zip(*args, *iterables))
+        self.pipe(self._zip(*iterables))
+        return self
+
+    def unpack(self, f: Callable[..., Any]):
+        """Adds an unpacking function to the pipeline.
+        Args:
+            f: The function used to unpack a sequence.
+        Returns:
+            The Chain object for method chaining.
+        """
+        self.map(self._unpack(f))
         return self
 
     def sort(self, reverse=False):

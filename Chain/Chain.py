@@ -25,14 +25,14 @@ class Chain(ChainFunctional):
         return self
 
 
-    def enumerate(self) -> 'Chain':
+    def enumerate(self, start=0) -> 'Chain':
         """Adds an enumerate function to the pipeline.
         Args:
             start: The start index of the enumeration.
         Returns:
             The Chain object for method chaining.
         """
-        self.pipe(lambda *args: enumerate(*args))
+        self.pipe(lambda *args: enumerate(*args, start=start))
         return self
 
 

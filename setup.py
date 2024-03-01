@@ -1,14 +1,16 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
-    name='Chain',
-    version='0.1',
-    author='Joel Castro',
-    py_modules=['Chain'],
-    entry_points={
-        'console_scripts': [
-            'Chain = Chain:main'
-        ]
-    }
+    name="PipeFunc",
+    version="1.0",
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
+    author="Joel Castro",
+    description="A powerful Function Chaining wrapper of python functtools.",
+    install_requires=["numpy", "pandas"],
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+    ],
 )
-

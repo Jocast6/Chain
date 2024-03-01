@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: PipeFunc
+Version: 1.0
+Summary: A powerful Function Chaining wrapper of python functtools.
+Author: Joel Castro
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Dist: numpy
+Requires-Dist: pandas

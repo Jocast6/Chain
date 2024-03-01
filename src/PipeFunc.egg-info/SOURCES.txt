@@ -1,0 +1,12 @@
+README.md
+setup.py
+src/PipeFunc/Chain.py
+src/PipeFunc/ChainBase.py
+src/PipeFunc/ChainFunctional.py
+src/PipeFunc/__init__.py
+src/PipeFunc.egg-info/PKG-INFO
+src/PipeFunc.egg-info/SOURCES.txt
+src/PipeFunc.egg-info/dependency_links.txt
+src/PipeFunc.egg-info/requires.txt
+src/PipeFunc.egg-info/top_level.txt
+tests/test_chain.py

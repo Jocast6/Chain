@@ -3,7 +3,7 @@ from .ChainFunctional import ChainFunctional
 
 
 class Chain(ChainFunctional):
-    def map(self, f: Callable[..., Any]) -> 'Chain':
+    def map(self, f: Callable[..., Any]):
         """Adds a map function to the pipeline.
         Args:
             f: The function to apply to each element of the sequence.
@@ -25,7 +25,7 @@ class Chain(ChainFunctional):
         return self
 
 
-    def enumerate(self, start=0) -> 'Chain':
+    def enumerate(self, start=0):
         """Adds an enumerate function to the pipeline.
         Args:
             start: The start index of the enumeration.
@@ -36,7 +36,7 @@ class Chain(ChainFunctional):
         return self
 
 
-    def zip(self, *iterables) -> 'Chain':
+    def zip(self, *iterables):
         """Adds a zip function to the pipeline.
         Args:
             *iterables: The iterable(s) to zip with the original sequence.

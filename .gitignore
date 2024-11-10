@@ -364,3 +364,4 @@ FodyWeavers.xsd
 /Chain.egg-info
 /Chain/Chain.pyproj
 /Tests/Tests.pyproj
+/src/PipeFunc/PipeFunc.pyproj

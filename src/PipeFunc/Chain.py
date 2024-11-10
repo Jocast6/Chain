@@ -14,7 +14,7 @@ class Chain(ChainFunctional):
         return self
 
 
-    def filter(self, f: Callable[..., Any]) -> 'Chain':
+    def filter(self, f: Callable[..., Any]):
         """Adds a filter function to the pipeline.
         Args:
             f: The function used to filter the sequence.

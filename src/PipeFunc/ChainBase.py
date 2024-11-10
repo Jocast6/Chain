@@ -28,7 +28,7 @@ class ChainBase:
         """
         return self.run(initial_input)
     
-    def pipe(self, function: Callable[..., Any], *args: Any, **kwargs: Any) -> 'Chain':
+    def pipe(self, function: Callable[..., Any], *args: Any, **kwargs: Any):
         """Adds a function to the function pipeline.
 
         Args:

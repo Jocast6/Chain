@@ -39,3 +39,23 @@ The Git repository contains code for a Python class called Chain that implements
 
     self.assertEqual([258, 126, 36, 60, 18, 240], result)
 ```
+
+## Installation
+
+To install the package locally, run the following command from the root directory (where `setup.py` is located):
+
+```sh
+pip install .
+```
+
+This will install the `chain` package and its dependencies so you can import and use it in your Python projects.
+
+## Usage
+
+To use the `chain` package, you can import the `Chain` class from the `chain` module in your Python code:
+
+```python
+from chain import Chain
+```
+
+You can then create an instance of the `Chain` class and use its methods to build and execute functional programming pipelines on your data.

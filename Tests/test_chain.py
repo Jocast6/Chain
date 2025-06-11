@@ -1,6 +1,6 @@
 import unittest
 from unittest import result
-from Chain import Chain
+from chain import Chain
 import numpy as np
 from dataclasses import dataclass
 

@@ -1,61 +1,113 @@
 # Chain
-The Git repository contains code for a Python class called Chain that implements functional programming operations such as mapping, filtering, and reducing on iterable objects. The class provides methods for chaining these operations together, allowing for the creation of complex pipelines that can be applied to data. The repository includes unit tests that demonstrate the functionality of the Chain class, including tests for mapping, filtering, zipping, enumerating, and sorting operations. The tests use a variety of input types, including lists and data classes, and compare the results to expected output. Overall, the repository provides a useful tool for developers who wish to implement functional programming concepts in their Python code
 
-```python
-    # you can define custom functions and add them to the pipeline using Chain.pipe
-    def higher_order_function_with_two_outputs(x, f):
-        # this function takes a list: x, and a function: f, as inputs
-        y = list(map(f, x))
-        return x, y
+**Chain** is a lightweight Python library for building **readable, composable data pipelines**—especially when your functions produce **multiple outputs**, operate on **structured data**, or represent **domain-specific workflows**.
 
-    def add(x, y):
-        # this function takes two list: x, y
-        output = []
-        for i in range(len(x)):
-            output.append(x[i] + y[i])
+It lets you write data logic as a **linear story**, not a tangle of loops, temporaries, and hidden side effects.
 
-        return output
+If your code often raises questions like:
+- “Where did this DataFrame come from?”
+- “Why does this function return three things?”
+- “How do I name and persist intermediate results cleanly?”
 
-    random_numbers = [86, 42, 12, 20, 6, 87, 1, 80, 7, 43]
+Chain is built for exactly that.
 
-    # create an instance of the Chain class and add functions to pipeline
-    pipeline = Chain()\
-        .map(lambda x: x + 100)\
-        .map(lambda x: x - 100)\
-        .filter(lambda x: x % 2 == 0)\
-        .pipe(higher_order_function_with_two_outputs, lambda x: x*2)\
-        .pipe(add)\
-            
-    # don't like backslashes?
-    pipeline = (Chain()
-        .map(lambda x: x + 100)
-        .map(lambda x: x - 100)
-        .filter(lambda x: x % 2 == 0)
-        .pipe(higher_order_function_with_two_outputs, lambda x: x*2)# additional parammeters to functions can be passed with the Chain.pipe
-        .pipe(add))
+---
 
-    # run the function pipeline with an initial input
-    result = pipeline(random_numbers)
+## What makes Chain different?
 
-    self.assertEqual([258, 126, 36, 60, 18, 240], result)
-```
+Most functional libraries stop at `map` and `filter`.
 
-## Installation
+Chain supports:
+- 🔁 **Multi-output functions** (fan-out → fan-in)
+- 🧩 **Tuple-aware composition** (outputs become inputs automatically)
+- 🗂️ **Structured data flows** (lists, tuples, dicts, DataFrames)
+- 💾 **Explicit side-effect stages** (saving CSVs, etc.)
+- 🧠 **Domain-specific pipelines via inheritance**
 
-To install the package locally, run the following command from the root directory (where `setup.py` is located):
+This makes Chain especially useful for:
+- analytics and reporting pipelines
+- ETL-style batch jobs
+- reproducible research
+- internal data tooling
 
-```sh
-pip install .
-```
+---
 
-This will install the `chain` package and its dependencies so you can import and use it in your Python projects.
+Design philosophy
 
-## Usage
+Chain is built around a few core ideas:
 
-To use the `chain` package, you can import the `Chain` class from the `chain` module in your Python code:
+Data flows forward
+
+Shape matters (lists, tuples, dicts are explicit)
+
+Side effects belong at the edges
+
+Pipelines should read like intent
+
+It is intentionally:
+
+small
+
+unopinionated
+
+easy to extend
+
+hard to misuse accidentally
+
+## Quick example
 
 ```python
 from chain import Chain
-```
 
-You can then create an instance of the `Chain` class and use its methods to build and execute functional programming pipelines on your data.
+data = [1, 2, 3, 4, 5, 6]
+
+result = (
+    Chain()
+    .filter(lambda x: x % 2 == 0)
+    .map(lambda x: x * 10)
+)(data)
+
+# result -> [20, 40, 60]
+
+# Chain automatically passes tuple outputs as arguments to the next stage. 
+def duplicate_and_transform(xs, f):
+    ys = list(map(f, xs))
+    return xs, ys
+
+def add_lists(x, y):
+    return [a + b for a, b in zip(x, y)]
+
+pipeline = (
+    Chain()
+    .filter(lambda x: x % 2 == 0)
+    .pipe(duplicate_and_transform, lambda x: x * 2)
+    .pipe(add_lists)
+)
+
+# Reusable pipelines
+pipeline([86, 42, 12, 20, 6, 87, 1, 80, 7, 43])
+# -> [258, 126, 36, 60, 18, 240]
+
+# Domain-specific pipelines via inheritance ⭐
+# One of Chain’s most powerful features is that you can subclass it to create a mini DSL for your domain.
+
+class CrashChain(Chain):
+    def pedestrian_only(self):
+        return self.filter(lambda c: c["mode"] == "pedestrian")
+
+    def severe(self):
+        return self.filter(lambda c: c["severity"] in ("A", "K"))
+
+    def downtown(self):
+        return self.filter(lambda c: c["area"] == "Downtown")
+
+results = (
+    CrashChain()
+    .pedestrian_only()
+    .severe()
+    .downtown()
+    .pipe(summarize_crash_severity)
+)(crash_data)
+
+# This reads like policy, not plumbing—and that’s intentional.
+
